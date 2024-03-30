@@ -9,7 +9,7 @@ The primary goal of this analysis is to utilize the survey data to optimize targ
 ## Methodology
 To achieve our objectives, we propose the development and comparison of at least two predictive models. These models will be evaluated based on their predictive accuracy to ensure the effectiveness of the targeted mailers. The following steps outline our proposed methodology:
 
-1. **Model Development:** Build a minimum of two predictive models using the survey data. These models will aim to predict voter behavior and potential donation activity based on historical patterns and responses.
+1. **Model Development:** Build two predictive models using the survey data. These models will aim to predict voter behavior and potential donation activity based on historical patterns and responses.
 
 2. **Model Comparison:** Compare the predictive accuracies of the developed models. This comparison will involve analyzing various performance metrics to determine the most effective model for our objectives.
 
