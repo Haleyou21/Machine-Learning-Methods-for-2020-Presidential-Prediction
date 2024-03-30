@@ -19,7 +19,7 @@ library("NeuralNetTools")
 library(rpart)
 library(rpart.plot)
 library(randomForest)
-# 1. MUltinominal logistic regression
+# 1. Random Forest
 lr= multinom(vote~., data = training)
 # Validation of the model using training data
 
@@ -41,7 +41,7 @@ pred=predict(rf, testing,type = 'class')
 confusionMatrix(pred, as.factor(testing$vote))
 importantplot=importance(rf)
 dotchart(sort(importantplot[,1]), xlab="relative importantce", ylab="variable", main="", pch=19)
-# 4. KNN
+# 2. KNN
 # obtain the optimal K
 trcontrol= trainControl(method = 'repeatedcv', number = 10, repeats = 3) set.seed(1234)
 KNN=train(vote~., data=training,
