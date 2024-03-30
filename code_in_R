@@ -1,0 +1,70 @@
+df= read.csv('FLDatav2.csv') head(df)
+#View(df)
+summary(df)
+str(df)
+# convert the variables int their right data type df$voter_party=as.factor(df$voter_party) df$voter_race=as.factor(df$voter_race) df$voter_urban=as.factor(df$voter_urban) df$vote=as.factor(df$vote) df$walz_approval=as.factor(df$walz_approval) summary(df)
+# we will chose vote as the target variable
+# lets drop donation and walz approval from the data df$donations=NULL
+df$walz_approval=NULL
+# Partion the data into training and testing set.seed(12345)
+ind= sample(2, nrow(df), replace = T, prob = c(0.7,0.3)) training= df[ind==1,]
+testing=df[ind==2,]
+# Build different models
+library(caret)
+library(nnet)
+library(reshape2)
+library(foreign)
+library("neuralnet")
+library("NeuralNetTools")
+library(rpart)
+library(rpart.plot)
+library(randomForest)
+# 1. MUltinominal logistic regression
+lr= multinom(vote~., data = training)
+# Validation of the model using training data
+
+pred=predict(lr, training) confusionMatrix(pred, as.factor(training$vote)) # Validation of the model using testing data pred=predict(lr, testing)
+confusionMatrix(pred, as.factor(testing$vote)) # 2. Classification tree
+ct= rpart(vote~., data=training)
+# model validation on training data pred=predict(ct, training,type = 'class')
+pred
+confusionMatrix(pred, as.factor(training$vote)) # model validation on testing data pred=predict(ct, testing,type = 'class')
+pred
+confusionMatrix(pred, as.factor(testing$vote)) # 3. Random Forest
+rf= randomForest(vote~., data=training)
+# model validation on training data
+
+pred=predict(rf, training,type = 'class')
+confusionMatrix(pred, as.factor(training$vote))
+# model validation on testing data
+pred=predict(rf, testing,type = 'class')
+confusionMatrix(pred, as.factor(testing$vote))
+importantplot=importance(rf)
+dotchart(sort(importantplot[,1]), xlab="relative importantce", ylab="variable", main="", pch=19)
+# 4. KNN
+# obtain the optimal K
+trcontrol= trainControl(method = 'repeatedcv', number = 10, repeats = 3) set.seed(1234)
+KNN=train(vote~., data=training,
+method="knn", tuneLength=20, trControl=trcontrol,
+preProc = c("center", "scale"))
+KNN
+# model validation on training data
+
+pred=predict(KNN, training)
+pred
+confusionMatrix(pred, as.factor(training$vote)) # model validation on testing data pred=predict(KNN, testing)
+pred
+confusionMatrix(pred, as.factor(testing$vote)) # 5. Neural Network
+train_params <- trainControl(method = "repeatedcv", number = 10, repeats=5) set.seed(123)
+nnet_model <- train(training[,-1], training$vote,
+method = "nnet",
+hidden=2,
+trControl= train_params, preProcess=c("scale","center")
+) plot(nnet_model)
+
+plot(nnet_model)
+# Predictions on the training set
+nnet_predictions_train <-predict(nnet_model, training) nnet_predictions_train
+confusionMatrix(nnet_predictions_train, as.factor(training$vote)) # Predictions on the testing set
+nnet_predictions_train <-predict(nnet_model, testing) nnet_predictions_train
+confusionMatrix(nnet_predictions_train, as.factor(testing$vote))
