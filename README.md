@@ -19,12 +19,3 @@ To achieve our objectives, we propose the development and comparison of at least
 
 ## Future Implications
 The insights gained from this analysis will directly inform our strategy for targeted mailer distribution, potentially increasing the efficiency and effectiveness of our voter engagement and fundraising efforts. Moreover, this project will lay the groundwork for future data analysis initiatives within our organization, promoting a data-driven approach to decision-making.
-
-## Contribution
-We encourage contributions from the community. If you have suggestions or improvements, please feel free to fork this repository, make your changes, and submit a pull request.
-
-## Contact
-For any queries or further discussions regarding this project, please contact us at [your contact information].
-
-Thank you for your interest in our 2020 General Election survey analysis project. We look forward to your contributions and insights.
-
